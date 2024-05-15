@@ -1,5 +1,5 @@
 # Project-3
-Third project is a weather app
+This is a weather webpage,
 using-
 HTML
 CSS
