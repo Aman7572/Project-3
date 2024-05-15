@@ -1,2 +1,6 @@
 # Project-3
-Third project on Web Development
+Third project is a weather app
+using-
+HTML
+CSS
+JS
