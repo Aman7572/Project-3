@@ -1,25 +1,42 @@
-const burger = document.querySelector("#burger-menu");
-const ul = document.querySelector("nav ul");
-const nav = document.querySelector("nav");
+const api = {
+  key: "8202f6d45d5a8e8d145183127bb03d48",
+  base: "https://api.openweathermap.org/data/2.5/weather?", 
+}
 
-const scrollUp = document.querySelector("#scroll-up");
+const date = moment();
+document.getElementById("date").innerHTML = date.format("Mo MMM YYYY dddd, h:mm:ss");
+  
+  const Input = document.getElementById('input');
 
-const navLink = document.querySelectorAll(".nav-link");
+  Input.addEventListener('keypress', (event) => {
 
-burger.addEventListener("click", () => {
-  ul.classList.toggle("show");
+  if(event.keyCode == 13) {
+      getWeather(Input.value);  
+      document.querySelector('.main-weather').style.display = "block"; 
+  }
 });
 
-navLink.forEach((link) =>
-  link.addEventListener("click", () => {
-    ul.classList.remove("show");
-  })
-);
 
-scrollUp.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: "smooth",
-  });
-});
+function getWeather(city) {
+  fetch(`${api.base}q=${city}&appid=${api.key}&units=metric`)   
+  .then(details => {
+      return details.json();  
+
+  }).then(showWeather);
+}
+
+
+function showWeather(details){  
+
+
+  let city = document.getElementById('city');
+  city.innerHTML = `${details.name}, ${details.sys.country}`;
+
+  let temperature = document.getElementById('temp');
+  temperature.innerHTML = `${Math.round(details.main.temp)}&deg;C`; 
+
+  let minMax = document.getElementById('min-max');
+  minMax.innerHTML = `${Math.round(details.main.temp_min)}&deg;C (Min) and ${Math.round(details.main.temp_max)}&deg;C (Max) `;
+  let weatherType = document.getElementById('weather-type');
+  weatherType.innerHTML = `${details.weather[0].main}`;
+}
